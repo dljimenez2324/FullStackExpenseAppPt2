@@ -273,3 +273,4 @@ C:\Users\Owner\OneDrive\CodeStack\Level4\Challenges\FullStackExpenseAppPt2\api\o
 C:\Users\Owner\OneDrive\CodeStack\Level4\Challenges\FullStackExpenseAppPt2\api\obj\Debug\net8.0\api.pdb
 C:\Users\Owner\OneDrive\CodeStack\Level4\Challenges\FullStackExpenseAppPt2\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\Owner\OneDrive\CodeStack\Level4\Challenges\FullStackExpenseAppPt2\api\obj\Debug\net8.0\ref\api.dll
+C:\Users\Owner\OneDrive\CodeStack\Level4\Challenges\FullStackExpenseAppPt2\api\obj\Debug\net8.0\api.sourcelink.json

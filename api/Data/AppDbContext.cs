@@ -15,5 +15,10 @@ namespace api.Data
 
         }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
