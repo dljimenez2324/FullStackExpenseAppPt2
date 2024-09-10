@@ -47,5 +47,18 @@ namespace api.Controllers
             return _data.Login(User);
         }
 
+        // UpdateUser's id and username
+        [HttpPost("UpdateUser")]
+        public bool UpdateUser(int id, string username)
+        {
+            return _data.UpdateUser(id, username);
+        }
+
+        //  DeleteUser
+        [HttpPost("DeleteUser/{userToDelete}")]
+        public bool DeleteUser(string userToDelete)
+        {
+            return _data.DeleteUser(userToDelete);
+        }
     }
 }

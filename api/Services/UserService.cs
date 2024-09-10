@@ -15,6 +15,11 @@ namespace api.Services
             throw new NotImplementedException();
         }
 
+        internal bool DeleteUser(string userToDelete)
+        {
+            throw new NotImplementedException();
+        }
+
         internal IEnumerable<UserModel> GetAllUsers()
         {
             throw new NotImplementedException();
@@ -26,6 +31,11 @@ namespace api.Services
         }
 
         internal IActionResult Login(LoginDTO user)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool UpdateUser(int id, string username)
         {
             throw new NotImplementedException();
         }
