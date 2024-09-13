@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
@@ -50,32 +52,79 @@ namespace api.Services
             return result;
         }
 
-        // ------------- ended here------------------
-        // need to add Hashpassword Method.  see UserService from FullStackBlog Example
+        
+        public PasswordDTO HashPassword(string password)
+        {
+            PasswordDTO newHashedPassword = new PasswordDTO();
+            byte[] SaltBytes = new byte[64];
+            var provider = new RNGCryptoServiceProvider();
+            provider.GetNonZeroBytes(SaltBytes);
+            var Salt = Convert.ToBase64String(SaltBytes);
+            var Rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, SaltBytes, 10000);
+            var Hash = Convert.ToBase64String(Rfc2898DeriveBytes.GetBytes(256));
+
+            newHashedPassword.Salt = Salt;
+            newHashedPassword.Hash = Hash;
+
+            return newHashedPassword;
+
+        }
+
+        // function to verify the user Password
+        public bool VerifyUserPassword(string? Password, string? StoredHash, string? StoredSalt)
+        {
+            var SaltBytes = Convert.FromBase64String(StoredSalt);
+            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(Password, SaltBytes, 10000);
+            var newHash = Convert.ToBase64String(rfc2898DeriveBytes.GetBytes(256));
+
+            return newHash == StoredHash;
+        }
+
+        
+
+        public IEnumerable<UserModel> GetAllUsers()
+        {
+            return _context.Users;
+        }
+
+
+        // need to add
+        // public UserModel GetAllUserDataByUsername(string username)
+        internal IActionResult Login(LoginDTO user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserIdDTO GetUserIdDTOByUserName(string username)
+        {
+            var UserInfo = new UserIdDTO();
+            var foundUser = _context.Users.SingleOrDefault(user => user.Username == username);
+            UserInfo.UserId = foundUser.Id;
+            UserInfo.UserName = foundUser.Username;
+
+            return UserInfo;
+        }
+
+        public UserModel GetUserByUserName(string? username)
+        {
+            return _context.Users.SingleOrDefault(user => user.Username == username);
+        }
 
         internal bool DeleteUser(string userToDelete)
         {
             throw new NotImplementedException();
         }
 
-        internal IEnumerable<UserModel> GetAllUsers()
+        // geting user by id
+        public UserModel GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Users.SingleOrDefault(user => user.Id == id);
         }
-
-        internal UserIdDTO GetUserIdDTOByUserName(string username)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal IActionResult Login(LoginDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
         internal bool UpdateUser(int id, string username)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
