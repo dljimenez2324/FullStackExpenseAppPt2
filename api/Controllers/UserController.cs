@@ -20,7 +20,7 @@ namespace api.Controllers
         }
 
         // AddUser
-        [HttpGet("AddUser")]
+        [HttpPost("AddUser")]
         public bool AddUser (CreateAccountDTO UserToAdd)
         {
             return _data.AddUser(UserToAdd);
