@@ -46,8 +46,7 @@ namespace api.Services
                 newUser.Salt = newHashedPassword.Salt;
                 newUser.Hash = newHashedPassword.Hash;
 
-                // _context.Add(newUser);
-                // result = _context.SaveChanges() !=0;
+                
                 // talk to our database now
                 try
                 {
@@ -62,7 +61,7 @@ namespace api.Services
                 
             }
 
-            // if user does exist  result returned is false
+            // if user does exist  result returned is false and user is not added
             return result;
         }
 
@@ -84,7 +83,7 @@ namespace api.Services
 
         }
 
-        // function to verify the user Password  (seems that Rfc2898DeriveBytes is deprecated. we should change to a different method)
+        // function to verify the user Password (seems that Rfc2898DeriveBytes is deprecated. we should change to a different method)
         public bool VerifyUserPassword(string? Password, string? StoredHash, string? StoredSalt)
         {
             var SaltBytes = Convert.FromBase64String(StoredSalt);
@@ -107,6 +106,8 @@ namespace api.Services
         {
             return _context.Users.FirstOrDefault(x => x.Username == username);
         }
+
+        // returns token if user is verified with matched username and password
         public IActionResult Login(LoginDTO user)
         {
             IActionResult Result = Unauthorized();
@@ -135,11 +136,11 @@ namespace api.Services
             return Result;
         }
 
-        // get user info from UserIdDTO which only holds user id and username... returns userId and username
+        // get user info from UserIdDTO which only holds user id and username... returns userId and username  safer than getting UserModel information as it doesnt hold the salt and hash
         public UserIdDTO GetUserIdDTOByUserName(string username)
         {
             var UserInfo = new UserIdDTO();
-            var foundUser = _context.Users.SingleOrDefault(user => user.Username == username);
+            var foundUser = _context.Users.SingleOrDefault(user => user.Username == username) ?? throw new Exception("Username does not exist.");
             UserInfo.UserId = foundUser.Id;
             UserInfo.UserName = foundUser.Username;
 
