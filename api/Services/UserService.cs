@@ -46,21 +46,20 @@ namespace api.Services
                 newUser.Salt = newHashedPassword.Salt;
                 newUser.Hash = newHashedPassword.Hash;
 
-                _context.Add(newUser);
-                result = _context.SaveChanges() !=0;
-                // // talk to our database now
-                // try
-                // {
-                //     _context.Add(newUser);
-                //     result = _context.SaveChanges() !=0;
-                // }
-                // catch (Exception ex)
-                // {
-                //     // Log the exception
-                //     Console.WriteLine(ex.Message);
-                // }
-                Console.WriteLine(newUser);
-                Console.WriteLine(result);
+                // _context.Add(newUser);
+                // result = _context.SaveChanges() !=0;
+                // talk to our database now
+                try
+                {
+                    _context.Add(newUser);
+                    result = _context.SaveChanges() !=0;
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    Console.WriteLine(ex.Message);
+                }
+                
             }
 
             // if user does exist  result returned is false
