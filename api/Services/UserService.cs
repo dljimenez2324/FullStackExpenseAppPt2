@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
 using api.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
@@ -33,7 +36,7 @@ namespace api.Services
             // if user does not exist
             if(!DoesUserExist(userToAdd.Username))
             {
-                UserModel User = new UserModel();
+                // UserModel User = new UserModel();
                 UserModel newUser = new UserModel();
 
                 var newHashedPassword = HashPassword(userToAdd.Password);
@@ -44,15 +47,23 @@ namespace api.Services
                 newUser.Hash = newHashedPassword.Hash;
 
                 // talk to our database now
-                _context.Add(newUser);
-                result = _context.SaveChanges() !=0;
+                try
+                {
+                    _context.Add(newUser);
+                    result = _context.SaveChanges() !=0;
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             // if user does exist  result returned is false
             return result;
         }
 
-        
+        // Password hashing
         public PasswordDTO HashPassword(string password)
         {
             PasswordDTO newHashedPassword = new PasswordDTO();
@@ -70,7 +81,7 @@ namespace api.Services
 
         }
 
-        // function to verify the user Password
+        // function to verify the user Password  (seems that Rfc2898DeriveBytes is deprecated. we should change to a different method)
         public bool VerifyUserPassword(string? Password, string? StoredHash, string? StoredSalt)
         {
             var SaltBytes = Convert.FromBase64String(StoredSalt);
@@ -81,20 +92,47 @@ namespace api.Services
         }
 
         
-
+        // will return all users and their info using UserModel
         public IEnumerable<UserModel> GetAllUsers()
         {
             return _context.Users;
         }
 
 
-        // need to add
-        // public UserModel GetAllUserDataByUsername(string username)
-        internal IActionResult Login(LoginDTO user)
+        // returns the data for one user using their username as the parameter
+        public UserModel GetAllUserDataByUsername(string username)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefault(x => x.Username == username);
+        }
+        public IActionResult Login(LoginDTO user)
+        {
+            IActionResult Result = Unauthorized();
+            if (DoesUserExist(user.UserName))
+            {
+                // verify password here
+                UserModel foundUser = GetAllUserDataByUsername(user.UserName);
+                if (VerifyUserPassword(user.Password, foundUser.Hash, foundUser.Salt))
+                {
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("reallylongkeysuperSecretKey@345678Hello"));
+                    var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                    var tokenOptions = new JwtSecurityToken(
+                        issuer: "https://localhost:5001",
+                        audience: "https://localhost:5001",
+                        claims: new List<Claim>(),
+                        expires: DateTime.Now.AddMinutes(15),
+                        signingCredentials: signInCredentials
+                    );
+
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                    
+                    Result = Ok(new { Token = tokenString });
+                }
+            }
+
+            return Result;
         }
 
+        // get user info from UserIdDTO which only holds user id and username... returns userId and username
         public UserIdDTO GetUserIdDTOByUserName(string username)
         {
             var UserInfo = new UserIdDTO();
@@ -110,9 +148,17 @@ namespace api.Services
             return _context.Users.SingleOrDefault(user => user.Username == username);
         }
 
-        internal bool DeleteUser(string userToDelete)
+        public bool DeleteUser(string userToDelete)
         {
-            throw new NotImplementedException();
+            UserModel foundUser = GetUserByUserName(userToDelete);
+            bool result = false;
+            if (foundUser != null)
+            {
+                foundUser.Username = userToDelete;
+                _context.Remove<UserModel>(foundUser);
+                result = _context.SaveChanges() !=0;
+            }
+            return result;
         }
 
         // geting user by id
@@ -120,9 +166,17 @@ namespace api.Services
         {
             return _context.Users.SingleOrDefault(user => user.Id == id);
         }
-        internal bool UpdateUser(int id, string username)
+        public bool UpdateUser(int id, string username)
         {
-            throw new NotImplementedException();
+            UserModel foundUser = GetUserById(id);
+            bool result = false;
+            if (foundUser != null)
+            {
+                foundUser.Username = username;
+                _context.Update<UserModel>(foundUser);
+                result = _context.SaveChanges() != 0;
+            }
+            return result;
         }
 
         
