@@ -1,20 +1,20 @@
-# <b>Challenge 3 FullStack Expense App Part 1</b>
+# <b>Challenge 3 FullStack Expense App Part 2</b>
 
 
 <b>Name: </b> David Jimenez<br>
-<b>Project: </b>FullStack Expense App Part 1<br>
-<b>Date: </b> 08/16/2024 <br>
+<b>Project: </b>FullStack Expense App Part 2<br>
+<b>Date: </b> 09/16/2024 <br>
 <strong>Description: </strong> & <b>Requirements: </b><br>
 
-In this Challenge you will Create the Back End (Api) for your Expense App (expenseL) front end  we have build.
+In this Challenge you will add to your the Back End (Api)  and  front end  we have build.
 
-1. BackEnd must be build in .Net 8 using web api, EF core, must use Controllers. Use Swagger to test your endpoints.
+1. You will need to add to your Front End a Create account page, Login Page.
 
-2. Must set up  SQL Server database in Azure
+2. You will need to add the corresponding code to your Back End (api) to match your Create Account and Login in you Front End.
 
-3. All CRUD function must work, In this case you will need to add an Edit button to your front end
+3. Remember you need to add react router, to your front end to be able to navigate to each page.
 
-4. Must be well designed UI, you can use Bootstrap or Chakra UI
+4. Remember in you back end you will need your usercontrollers, models, and services. Also need to update your database.
 <br><br>
 <strong>GitHub: </strong> https://github.com/dljimenez2324/FullStackExpenseApp/ <br><br>
 <br>
@@ -23,5 +23,5 @@ In this Challenge you will Create the Back End (Api) for your Expense App (expen
 <strong>Notes:<strong/><br>
 *   
 
-<b>Peer Reviewed by: </b> Neng, Jose, Jacob, Neo <br>
-<b>Comments: </b>   Too many to type... see commit comments.
+<b>Peer Reviewed by: </b> <br>
+<b>Comments: </b>   
