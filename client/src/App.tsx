@@ -24,6 +24,7 @@ const App = () => {
 
   // per discussion with Neng, we see that visibleExpense isnt needed as its already handled with ExpenseFilter.tsx
   // then discussion with Neo, Jose and Jacob, we found we could still use this to pass in our filtered data so that our table will filter out unselected categories or keep all
+  // notice that the filter below will return only data that has the selected category  (see how this is different where we use !== which will return everything that is not the category)
   const visibleExpense = selectedCategory
     ? data.filter((e) => e.category === selectedCategory)
     : data;
@@ -44,6 +45,7 @@ const App = () => {
         }
       });
     console.log(`All Data: ${data}`);
+    console.log('Current Errors Stored in error from fetchAllExpenses: ', error)
   };
 
   // delete function
@@ -57,6 +59,7 @@ const App = () => {
       .catch((error) => {
         console.log(error);
       });
+    
   };
 
   // useEffect to fun an api call for the fetch all data
