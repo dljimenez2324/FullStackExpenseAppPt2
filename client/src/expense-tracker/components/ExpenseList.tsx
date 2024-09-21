@@ -1,23 +1,23 @@
 
 import { useState } from "react";
-import { Expense } from "../../App";
 import axios from "axios";
 import { BASE_URL } from "../constant";
+import { Expense, ExpenseProps } from "../../Interfaces/interface";
 
 // here are the props that we need to use to hold the structured Expense data objects
-interface ExpenseProps {
-    expenses: Expense[];
-    onDelete: (id: number) => void;
-    fetchData: () => void;
-    category: string;
-}
+// interface ExpenseProps {
+//     expenses: Expense[];
+//     onDelete: (id: number) => void;
+//     fetchData: () => void;
+//     category: string;
+// }
 
 const ExpenseList = ({
     category,
     expenses,
     onDelete,
     fetchData,
-}: ExpenseProps) => {
+    } : ExpenseProps) => {
 
     // useStates here
     const [updatingId, setUpdatingId] = useState<number | null>(null);

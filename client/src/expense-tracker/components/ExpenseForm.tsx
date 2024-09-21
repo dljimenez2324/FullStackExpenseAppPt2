@@ -1,11 +1,11 @@
 import categories from "../categories";
-import { Expense } from "../../App";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { z } from "zod";
 import axios from "axios";
 import { BASE_URL } from "../constant";
+import { Expense } from "../../Interfaces/interface";
 
 // in order to use zod we need to make our schema
 const schema = z

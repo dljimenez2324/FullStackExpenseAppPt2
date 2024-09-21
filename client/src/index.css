@@ -61,3 +61,24 @@ thead {
 /* .expenseCont {
   background-color: #27363d;
 } */
+
+.navbar, .nav-link, .navbar-brand {
+  background-color: #27363D !important;
+  color: azure !important;
+}
+
+/* Parent container */
+.container-parent {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center; /* Vertical centering */
+  height: 100vh; /* Full viewport height to vertically center */
+}
+
+/* Your container form */
+.container-form {
+  background-color: #578296;
+  margin: 1rem;
+  padding: 2rem;
+  border-radius: 1rem;
+}
