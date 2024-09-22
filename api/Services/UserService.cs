@@ -60,7 +60,7 @@ namespace api.Services
                 }
                 
             }
-
+            Console.WriteLine("User already exists, so adding a new user is: ", result);
             // if user does exist  result returned is false and user is not added
             return result;
         }

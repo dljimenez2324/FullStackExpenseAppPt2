@@ -83,7 +83,7 @@ const HomeComponent = () => {
 
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         {/* <Navbar/> */}
         <div className="container mainCont">
           <h1 className="text-center my-5">Expense App</h1>
@@ -113,18 +113,18 @@ const HomeComponent = () => {
                       fetchData={fetchAllExpenses}
                       category={selectedCategory}
                       />
-                    <Routes>
+                    {/* <Routes> */}
                       {/* <Route path="/" element={<App/>}/> */}
-                      <Route path="/Login" element={<Login/>} />
-                      <Route path="/CreateAccount" element={<CreateAccount/>} />
-                    </Routes>
+                      {/* <Route path="/Login" element={<Login/>} /> */}
+                      {/* <Route path="/CreateAccount" element={<CreateAccount/>} /> */}
+                    {/* </Routes> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     </>
   );
 };
