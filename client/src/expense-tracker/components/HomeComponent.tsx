@@ -1,32 +1,12 @@
 
-
 import axios, { CanceledError } from "axios";
 import { useEffect, useState } from "react";
-// import { BASE_URL } from "./expense-tracker/constant";
-// import ExpenseList from "./expense-tracker/components/ExpenseList";
-// import ExpenseFilter from "./expense-tracker/components/ExpenseFilter";
-// import ExpenseForm from "./expense-tracker/components/ExpenseForm";
-// import Navbar from "./expense-tracker/components/Navbar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BASE_URL } from "../constant";
-import Navbar from "./Navbar";
 import ExpenseForm from "./ExpenseForm";
 import ExpenseFilter from "./ExpenseFilter";
 import ExpenseList from "./ExpenseList";
-import Login from "./Login";
-import CreateAccount from "./CreateAccount";
 import { Expense } from "../../Interfaces/interface";
-// import Login from "./expense-tracker/components/Login";
-// import CreateAccount from "./expense-tracker/components/CreateAccount";
 
-
-//  this interface is how we will structure our Expense data
-// export interface Expense {
-//   id: number;
-//   description: string;
-//   amount: number;
-//   category: string;
-// }
 
 
 
@@ -43,7 +23,7 @@ const HomeComponent = () => {
     ? data.filter((e) => e.category === selectedCategory)
     : data;
 
-  // Get all Expense api function
+  // Get all Expense api function  need to change to getitemsbyuserid and pass in the userID  and fetchAllExpenses needs to pass in a parameter of userid:number
   const fetchAllExpenses = () => {
     axios
       .get(`${BASE_URL}GetAllExpenses`)
@@ -83,8 +63,6 @@ const HomeComponent = () => {
 
   return (
     <>
-      {/* <BrowserRouter> */}
-        {/* <Navbar/> */}
         <div className="container mainCont">
           <h1 className="text-center my-5">Expense App</h1>
           <div className="container">
@@ -113,18 +91,12 @@ const HomeComponent = () => {
                       fetchData={fetchAllExpenses}
                       category={selectedCategory}
                       />
-                    {/* <Routes> */}
-                      {/* <Route path="/" element={<App/>}/> */}
-                      {/* <Route path="/Login" element={<Login/>} /> */}
-                      {/* <Route path="/CreateAccount" element={<CreateAccount/>} /> */}
-                    {/* </Routes> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      {/* </BrowserRouter> */}
     </>
   );
 };

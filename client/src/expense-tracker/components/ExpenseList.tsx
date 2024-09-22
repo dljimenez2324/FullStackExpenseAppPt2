@@ -4,13 +4,6 @@ import axios from "axios";
 import { BASE_URL } from "../constant";
 import { Expense, ExpenseProps } from "../../Interfaces/interface";
 
-// here are the props that we need to use to hold the structured Expense data objects
-// interface ExpenseProps {
-//     expenses: Expense[];
-//     onDelete: (id: number) => void;
-//     fetchData: () => void;
-//     category: string;
-// }
 
 const ExpenseList = ({
     category,
@@ -27,7 +20,7 @@ const ExpenseList = ({
         amount: 0,
         category: ""
     });
-    const [savedData, setSavedData] = useState<Expense[]>([]);
+    // const [savedData, setSavedData] = useState<Expense[]>([]);
 
     // Helper functions here  start editing, stop editing and complete editing as the name updateExpense
     const startUpdate = (id: number) => {

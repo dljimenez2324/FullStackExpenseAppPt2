@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Models;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -99,5 +100,16 @@ namespace api.Controllers
             return BadRequest("Unable to update the expense item " + expense.Description);
 
         }
+
+        [HttpGet("GetExpensesByUserId/{UserId}")]
+        // public IEnumerable<Expense>  GetExpensesByUserId (int UserId)
+        // {
+        //     return _context.GetExpenseByUserId(UserId);
+        // }
+        public IEnumerable<Expense>  GetExpensesByUserId (int UserId)
+        {
+            return _context.Expenses.Where(items => items.UserId == UserId);
+        }
+
     }
 }
