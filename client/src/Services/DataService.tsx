@@ -52,11 +52,52 @@ const createAccount = async (createUser: UserCreate) => {
     }
 
 
-// method to get logged in user 
-    const FetchLoggedInUser = (username: string) => {
-        console.log(username)
-        throw new Error("Function not implemented.");
+// method to get logged in users username and userId # and set it to local storage
+    const FetchLoggedInUser = async (username: string) => {
+        // console.log(username);
+        await axios
+            .get(BASE_USERURL + "GetUserByUserNameDTO/" + username)
+            .then(res => {
+                userData = res.data; //store userData from response
+                localStorage.setItem("UserData", JSON.stringify(userData)); //set userData to the key UserData
+
+                // check to see if local storage is empty so JSON.parse does now throw an error as it cannot be null as line 7 currently shows userData as empty
+                const storedData = localStorage.getItem("UserData");
+                if(storedData)
+                {
+                    userData = JSON.parse(storedData);  
+                    console.log("UserData from localStorage in FetchLoggedInUser in DataService: ", userData);
+                } else 
+                    {
+                        console.error("No UserData found in localStorage");
+                    }
+            })
+            .catch(error => console.error("Error fetching user data: ", error.message));
+            
     }
 
 
-export { LoginUser, FetchLoggedInUser, createAccount, checkToken }
+// method to get expenses by userId
+    const GetExpensesByUserId = async (userId: number) => {
+        let expenseData;
+        await axios
+            .get(BASE_USERURL + "GetExpensesByUserId/" + userId)
+            .then((res) => {
+                expenseData = res.data;
+            })
+            .catch(error => console.error("Error fetching expenses by useId: ", error.message));
+
+        return expenseData
+    }
+
+
+// method to get userData if its empty or not
+    const LoggedInData = () => {
+        if ((!userData || Object.keys(userData).length === 0) && localStorage.getItem("UserData"))  // check if userData is undefined or empty and if localStorage has UserData
+        {
+            userData = JSON.parse(localStorage.getItem("UserData") || '{}'); // Safely parse from localStorage by giving JSON.parse and empty object {} in the event there is nothing in local storage
+        }
+        return userData;
+    }
+
+export { LoginUser, FetchLoggedInUser, createAccount, checkToken, GetExpensesByUserId, LoggedInData }

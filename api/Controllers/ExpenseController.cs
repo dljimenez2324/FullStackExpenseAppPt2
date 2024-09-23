@@ -102,14 +102,14 @@ namespace api.Controllers
         }
 
         [HttpGet("GetExpensesByUserId/{UserId}")]
-        // public IEnumerable<Expense>  GetExpensesByUserId (int UserId)
-        // {
-        //     return _context.GetExpenseByUserId(UserId);
-        // }
         public IEnumerable<Expense>  GetExpensesByUserId (int UserId)
         {
             return _context.Expenses.Where(items => items.UserId == UserId);
         }
+        // public IEnumerable<Expense>  GetExpensesByUserId (int UserId)
+        // {
+        //     return _context.GetExpenseByUserId(UserId);
+        // }
 
     }
 }

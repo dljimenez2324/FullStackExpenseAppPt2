@@ -25,15 +25,15 @@ const schema = z
 // lets create a type alias that represents the shape of the data defined by our schema above so that we check for type when we get or form data
 type FormData = z.infer<typeof schema>;
 
-// we need to pass through our FormData into our Expense form so that when we use it in the App.tsx it will ask for the prop to be used and this is
+// we need to pass through our FormData into our Expense form so that when we use it in the HomeComponent.tsx it will ask for the prop to be used and this is
 interface ExpenseProps {
   // onHelpSubmit: (data:FormData) => void;
   fetchExpenses: () => void;
-  addedData?: Expense;
+  addedData?: Expense; // removed the ? after addedData as it would make inputData throw possible undefined error in userId: addedData.userId;
 }
 
 
-// onHelpSubmit,        was orignally in the props passed through
+// onHelpSubmit,        was originally in the props passed through
 const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
   // in order to validate our form data on submit we need the following
   const {
@@ -45,6 +45,7 @@ const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
   // useStates for holding the current data from our inputs
   const [inputData, setInputData] = useState({
     id: addedData?.id || 0,
+    userId: addedData?.userId,
     description: addedData?.description || "",
     amount: addedData?.amount || 0,
     category: addedData?.category || "",

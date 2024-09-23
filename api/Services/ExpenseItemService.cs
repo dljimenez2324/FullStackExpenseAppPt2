@@ -12,6 +12,9 @@ namespace api.Services
     public class ExpenseItemService : ControllerBase
     {
         // ------ none of this will work unless my ExpenseController points to this ExpenseItemService which would require I no long point to AppDbContext  NO TIME FOR NOW
+        // ------ DONT USE YET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        
         private readonly AppDbContext _context;
         public ExpenseItemService(AppDbContext context)
         {

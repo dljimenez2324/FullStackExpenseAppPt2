@@ -16,6 +16,7 @@ const ExpenseList = ({
     const [updatingId, setUpdatingId] = useState<number | null>(null);
     const [updatingData, setUpdatingData] = useState<Expense>({
         id: 0,
+        userId: 0, // this may need to be changed
         description: "",
         amount: 0,
         category: ""
@@ -36,6 +37,7 @@ const ExpenseList = ({
         setUpdatingId(null);
         setUpdatingData({
             id: 0,
+            userId: 0, // may need to be changed?
             description: "",
             amount: 0,
             category: ""
