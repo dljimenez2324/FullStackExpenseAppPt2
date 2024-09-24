@@ -1,6 +1,6 @@
 import axios from "axios";
-import { UserCreate, UserLogin } from "../Interfaces/interface"; // holds interface with username and password without id
-import { BASE_USERURL } from "../expense-tracker/constant";
+import { Expense, UserCreate, UserLogin } from "../Interfaces/interface"; // holds interface with username and password without id
+import { BASE_URL, BASE_USERURL } from "../expense-tracker/constant";
 
 
 // --- This will save the UserData info from local storage using the key UserData which was set by the localStorage.setItem() in the GetLoggedInUser method
@@ -77,21 +77,27 @@ const createAccount = async (createUser: UserCreate) => {
     }
 
 
-// method to get expenses by userId
-    const GetExpensesByUserId = async (userId: number) => {
-        let expenseData;
-        await axios
-            .get(BASE_USERURL + "GetExpensesByUserId/" + userId)
-            .then((res) => {
-                expenseData = res.data;
-            })
-            .catch(error => console.error("Error fetching expenses by useId: ", error.message));
+// // method to get expenses by userId
+//     const GetExpensesByUserId = async (userId: number) => {
+//         let expenseData;
+//         await axios
+//             .get(BASE_USERURL + "GetExpensesByUserId/" + userId)
+//             .then((res) => {
+//                 expenseData = res.data;
+//             })
+//             .catch(error => console.error("Error fetching expenses by useId: ", error.message));
 
-        return expenseData
-    }
+//         return expenseData
+//     }
+
+// method to get expenses by useId but ensuring that it will return an object TypeScript understands
+const GetExpensesByUserId = async (userId: number): Promise<{ data: Expense[] }> => {
+    const response = await axios.get<{ data: Expense[] }>(`${BASE_URL}GetExpensesByUserId/${userId}`);
+    return response.data; // Ensure this returns the correct structure
+  };
 
 
-// method to get userData if its empty or not
+// method to get userData if its empty or not   should be returning
     const LoggedInData = () => {
         if ((!userData || Object.keys(userData).length === 0) && localStorage.getItem("UserData"))  // check if userData is undefined or empty and if localStorage has UserData
         {

@@ -14,6 +14,8 @@ import { checkToken, GetExpensesByUserId, LoggedInData } from "../../Services/Da
 
 const HomeComponent = () => {
 
+   // navigate to Login just in case user has tried to see expenses without logging in
+   let navigate = useNavigate();
 
   // useStates created to hold Expense Array and selected category from the form select and filter
   const [userId, setUserId] = useState(0);
@@ -66,34 +68,62 @@ const HomeComponent = () => {
 
 
 
-  // navigate to Login just in case user has tried to see expenses without logging in
-  let navigate = useNavigate();
+ 
   
   // loads upon mount              ------------------ need to uncomment line 76 , 80 and lines 86 to 104 to continue working on this
   useEffect(() => {
       if(!checkToken())
       {
-        // navigate('/');
+        navigate('/');
       } 
       else 
       {
-        // loadUserData();
+        loadUserData();
+        console.log("The userId after running loadUserData in useEffect: ", userId); 
       }
   
     
   }, [])
   
-  //-------------- will need to change this below to match my usecased and copied from Jose's lecture FullStackBlog from Dashboard       fix Expense form first------------------
+
+  // Function to load user data and expenses by user ID
+  const loadUserData = async () => {
+    try {
+      // Get user data from localStorage (assume userData is stored in localStorage)
+      let userInfo = JSON.parse(localStorage.getItem("UserData")!);
+      setUserId(userInfo.userId);
+      setUserName(userInfo.userName);
+
+      // Fetch expenses for the logged-in user
+      const userExpenseItems = await GetExpensesByUserId(userInfo.userId);
+
+      // Ensure userExpenseItems.data is properly set to data with fallback to []
+      setData(userExpenseItems?.data || []);
+    } catch (error) {
+      console.error("Error loading user data or expenses:", error);
+      setError("Failed to load user data or expenses.");
+    }
+  };
+
+  
+
+
+  // // -------------- will need to change this below to match my use case and copied from Jose's lecture FullStackBlog from Dashboard
   // // load userData by grabbing information from both LoggedInData method to get the userId # and use it as a parameter for GetExpensesByUserId method
   // const loadUserData = async () => {
-  //   let userInfo = LoggedInData();
+  //   // let userInfo = LoggedInData();
+  //   let userInfo = JSON.parse(localStorage.getItem("UserData")!);
   //   // onLogin(userInfo);
   //   setUserId(userInfo.userId);
   //   setUserName(userInfo.userName);
   //   console.log("userInfo: ", userInfo);
-  //   let userExpenseItems = await GetExpensesByUserId(userInfo.userId);
-  //   setData(userExpenseItems.data)
 
+  //   let userExpenseItems = await GetExpensesByUserId(userInfo.userId);
+  //   // if (userExpenseItems && userExpenseItems.data) {
+  //   //   setData(userExpenseItems.data);
+  //   // }
+  //   setData(userExpenseItems?.data || []);
+    
   //   // setTimeout(async () => {
   //   //   let userBlogItems = await GetExpensesByUserId(userInfo.userId);
   //   //   setBlogItems(userBlogItems);
@@ -112,7 +142,7 @@ const HomeComponent = () => {
   return (
     <>
         <div className="container mainCont">
-          <h1 className="text-center my-5">Expense App for {}</h1>
+          <h1 className="text-center my-5">Expense App for {userName}</h1>
           <div className="container">
             <div className="container my-4 mx-4 flexCont">
               <div className="container formCont col-4">

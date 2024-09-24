@@ -29,7 +29,7 @@ type FormData = z.infer<typeof schema>;
 interface ExpenseProps {
   // onHelpSubmit: (data:FormData) => void;
   fetchExpenses: () => void;
-  addedData?: Expense; // removed the ? after addedData as it would make inputData throw possible undefined error in userId: addedData.userId;
+  addedData?: Expense; // removed the ? after addedData possibly as it would make inputData throw possible undefined error in userId: addedData.userId;  TRIED BUT DIDNT WORK in HomeComponent
 }
 
 
