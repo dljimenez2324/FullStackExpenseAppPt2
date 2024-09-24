@@ -42,7 +42,6 @@ const createAccount = async (createUser: UserCreate) => {
             let data = result.data;
             userToken = data.token;
             localStorage.setItem("Token", data.token);
-            console.log(localStorage);
             console.log(result);
 
         } catch (error) {

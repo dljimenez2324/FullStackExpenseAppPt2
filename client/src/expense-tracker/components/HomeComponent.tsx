@@ -70,18 +70,18 @@ const HomeComponent = () => {
 
  
   
-  // loads upon mount              ------------------ need to uncomment line 76 , 80 and lines 86 to 104 to continue working on this
+  // loads upon mount              
   useEffect(() => {
       if(!checkToken())
       {
-        navigate('/');
+        navigate('/');  // comment this out  to prevent going back to login if wish
       } 
       else 
       {
         loadUserData();
         console.log("The userId after running loadUserData in useEffect: ", userId); 
       }
-  
+      //console.log(JSON.parse(localStorage.getItem("Token")!))
     
   }, [])
   
@@ -93,7 +93,7 @@ const HomeComponent = () => {
       let userInfo = JSON.parse(localStorage.getItem("UserData")!);
       setUserId(userInfo.userId);
       setUserName(userInfo.userName);
-
+      console.log(userInfo);
       // Fetch expenses for the logged-in user
       const userExpenseItems = await GetExpensesByUserId(userInfo.userId);
 
