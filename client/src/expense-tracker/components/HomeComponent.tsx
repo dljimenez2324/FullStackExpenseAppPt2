@@ -33,7 +33,7 @@ const HomeComponent = () => {
     ? data.filter((e:any) => e.category === selectedCategory)
     : data;
 
-  // Get all Expense api function  need to change to getitemsbyuserid and pass in the userId  and fetchAllExpenses needs to pass in a parameter of userid:number
+  // Get all Expense api function THIS IS FOR ALL USERS.  USE THE FUNCTION LOADUSERDATA which gets Expenses based on user id
   const fetchAllExpenses = () => {
     axios
       .get(`${BASE_URL}GetAllExpenses`)
@@ -86,7 +86,7 @@ const HomeComponent = () => {
   }, [])
   
 
-  // Function to load user data and expenses by user ID
+  // Function to load user data and expenses by user ID   we will use this instead of fetchAllExpenses
   const loadUserData = async () => {
     try {
       // Get user data from localStorage (assume userData is stored in localStorage)

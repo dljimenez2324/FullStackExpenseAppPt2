@@ -23,8 +23,8 @@ const Login = () => {
       }
 
       let token = await LoginUser(userData);
-      console.log(userData);
-      console.log("The login token is:  ", token);
+      // console.log(userData);
+      // console.log("The login token is:  ", token);
       if(token != null) {
         // localStorage.setItem("Token", token);
         FetchLoggedInUser(username);

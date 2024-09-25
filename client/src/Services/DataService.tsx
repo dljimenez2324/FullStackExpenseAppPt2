@@ -14,7 +14,7 @@ import { BASE_URL, BASE_USERURL } from "../expense-tracker/constant";
     const checkToken = () => {
         let result = false;
         let lsData = localStorage.getItem("Token");
-        console.log(lsData);
+        // console.log(lsData);
         if(lsData && lsData != null)
         {
             result = true;
@@ -42,7 +42,7 @@ const createAccount = async (createUser: UserCreate) => {
             let data = result.data;
             userToken = data.token;
             localStorage.setItem("Token", data.token);
-            console.log(result);
+            // console.log(result);
 
         } catch (error) {
             console.log(error);
