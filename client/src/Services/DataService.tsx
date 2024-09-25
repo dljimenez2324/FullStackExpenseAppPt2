@@ -14,7 +14,7 @@ import { BASE_URL, BASE_USERURL } from "../expense-tracker/constant";
     const checkToken = () => {
         let result = false;
         let lsData = localStorage.getItem("Token");
-
+        console.log(lsData);
         if(lsData && lsData != null)
         {
             result = true;
