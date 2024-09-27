@@ -18,7 +18,8 @@ const HomeComponent = () => {
    let navigate = useNavigate();
 
   // useStates created to hold Expense Array and selected category from the form select and filter
-  const [userId, setUserId] = useState(0);
+  // const [userId, setUserId] = useState(0);    // we commented this out because it stayed as 0  and was not changing
+  const userId =  JSON.parse(localStorage.getItem('UserData')!).userId;  
   const [userName, setUserName] = useState("");
   const [error, setError] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -33,7 +34,7 @@ const HomeComponent = () => {
     ? data.filter((e:any) => e.category === selectedCategory)
     : data;
 
-  // Get all Expense api function THIS IS FOR ALL USERS.  USE THE FUNCTION LOADUSERDATA which gets Expenses based on user id
+  // ********* comment out!!! Get all Expense api function THIS IS FOR ALL USERS.  USE THE FUNCTION LOADUSERDATA which gets Expenses based on user id *********
   const fetchAllExpenses = () => {
     axios
       .get(`${BASE_URL}GetAllExpenses`)
@@ -52,7 +53,7 @@ const HomeComponent = () => {
     console.log('Current Errors Stored in error from fetchAllExpenses: ', error)
   };
 
-  // delete function
+  // ****** delete function  EXCHANGE THE fetchAllExpenses() to  LOADUSERDATA FUNCTION *******
   const handleDelete = (id: number) => {
     axios
       .delete(`${BASE_URL}Delete/${id}`)
@@ -89,14 +90,14 @@ const HomeComponent = () => {
   // Function to load user data and expenses by user ID   we will use this instead of fetchAllExpenses
   const loadUserData = async () => {
     try {
-      // Get user data from localStorage (assume userData is stored in localStorage)
-      let userInfo = JSON.parse(localStorage.getItem("UserData")!);
-      setUserId(userInfo.userId);
+      
+      let userInfo = JSON.parse(localStorage.getItem("UserData")!);  // Get user data from localStorage (assume userData is stored in localStorage)
+      // setUserId(userInfo.userId);  // our userId usestate should change from 0 to the userId thats in local storage but it doesnt  WE SET THE USERID AT THE BEGINNING UP ABOVE NEAR USESTATES
       setUserName(userInfo.userName);
       console.log(userInfo);
       // Fetch expenses for the logged-in user
       const userExpenseItems = await GetExpensesByUserId(userInfo.userId);
-
+      console.log()
       // Ensure userExpenseItems.data is properly set to data with fallback to []
       setData(userExpenseItems?.data || []);
     } catch (error) {
@@ -148,7 +149,7 @@ const HomeComponent = () => {
               <div className="container formCont col-4">
                 <h2 className="text-center">New Expense</h2>
                 <div className="m-4 formStyle">
-                  <ExpenseForm fetchExpenses={loadUserData} />
+                  <ExpenseForm fetchExpenses={loadUserData} userId={userId}/>
                   {/* <ExpenseForm fetchExpenses={fetchAllExpenses} /> */}
                   {/* Component below was commented out due to addedData stating not having the proper props in the data */}
                   {/* <ExpenseForm addedData={data} fetchExpenses={fetchAllExpenses} /> */} 
@@ -170,7 +171,7 @@ const HomeComponent = () => {
                     <ExpenseList
                       expenses={visibleExpense}
                       onDelete={handleDelete}
-                      fetchData={fetchAllExpenses}
+                      fetchData={loadUserData}
                       category={selectedCategory}
                       />
                   </div>

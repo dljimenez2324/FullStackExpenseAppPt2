@@ -27,7 +27,7 @@ const Login = () => {
       // console.log("The login token is:  ", token);
       if(token != null) {
         // localStorage.setItem("Token", token);
-        FetchLoggedInUser(username);
+        await FetchLoggedInUser(username);
         navigate('/HomeComponent');
       }
       return userData;

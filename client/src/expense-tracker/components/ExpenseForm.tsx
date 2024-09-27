@@ -30,12 +30,12 @@ type FormData = z.infer<typeof schema>;
 interface ExpenseProps {
   // onHelpSubmit: (data:FormData) => void;
   fetchExpenses: () => void;
-  addedData?: Expense; // removed the ? after addedData possibly as it would make inputData throw possible undefined error in userId: addedData.userId;  TRIED BUT DIDNT WORK in HomeComponent
+  userId: number; // removed the ? after userId possibly as it would make inputData throw possible undefined error in userId: userId.userId;  TRIED BUT DIDNT WORK in HomeComponent
 }
 
 
 // onHelpSubmit,        was originally in the props passed through
-const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
+const ExpenseForm = ({ fetchExpenses, userId }: ExpenseProps) => {
   // in order to validate our form data on submit we need the following
   const {
     register,
@@ -45,11 +45,11 @@ const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
 
   // useStates for holding the current data from our inputs
   const [inputData, setInputData] = useState({
-    id: addedData?.id, // used to have  || 0
-    userId: addedData?.userId, // used to have || 0
-    description: addedData?.description || "",
-    amount: addedData?.amount || 0,
-    category: addedData?.category || "",
+    id: 0,
+    userId: userId,
+    description: "",
+    amount: 0,
+    category: "",
   });
 
   // // helper function for adding expenses
@@ -66,7 +66,7 @@ const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
   // Helper function for adding expenses but now with the userId taken into account
   const fetchData = async () => {
     try {
-      
+      console.log(inputData);
       const response = await axios.post(`${BASE_URL}AddExpense`, inputData);
       const data = response.data;
       // Do something with the data
