@@ -45,28 +45,42 @@ const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
 
   // useStates for holding the current data from our inputs
   const [inputData, setInputData] = useState({
-    id: addedData?.id || 0,
-    userId: addedData?.userId,
+    id: addedData?.id, // used to have  || 0
+    userId: addedData?.userId, // used to have || 0
     description: addedData?.description || "",
     amount: addedData?.amount || 0,
     category: addedData?.category || "",
   });
 
-  // helper function for adding expenses
-  const addExpense = () => {
-    axios
-      .post(`${BASE_URL}AddExpense`, inputData)
-      .then((response) => {
-        console.log(response);
-        fetchExpenses();
-      })
-      .catch((error) => console.log(error));
+  // // helper function for adding expenses
+  // const addExpense = async () => {
+  //   await axios
+  //     .post(`${BASE_URL}AddExpense`, inputData)
+  //     .then((response) => {
+  //       console.log(response);
+  //       fetchExpenses();
+  //     })
+  //     .catch((error) => console.log(error));
       
+  // };
+  // Helper function for adding expenses but now with the userId taken into account
+  const fetchData = async () => {
+    try {
+      
+      const response = await axios.post(`${BASE_URL}AddExpense`, inputData);
+      const data = response.data;
+      // Do something with the data
+      console.log(data);
+      fetchExpenses();
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(addExpense)}>
+      <form onSubmit={handleSubmit(fetchData)}>
         {/* hidden input so that form still takes in a value for the form to pass submission requirements */}
         {/* <input type="hidden" {...register('id')} value={id}/> */}
         <div className="col mb-3">
@@ -96,7 +110,7 @@ const ExpenseForm = ({ fetchExpenses, addedData }: ExpenseProps) => {
             {...register("amount", { valueAsNumber: true })}
             id="amount"
             type="number"
-            placeholder="0"
+            placeholder="$0.00"
             className="form-control"
             onChange={(e) => setInputData({...inputData, amount: parseInt(e.target.value)})}
           />

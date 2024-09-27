@@ -148,7 +148,8 @@ const HomeComponent = () => {
               <div className="container formCont col-4">
                 <h2 className="text-center">New Expense</h2>
                 <div className="m-4 formStyle">
-                  <ExpenseForm fetchExpenses={fetchAllExpenses} />
+                  <ExpenseForm fetchExpenses={loadUserData} />
+                  {/* <ExpenseForm fetchExpenses={fetchAllExpenses} /> */}
                   {/* Component below was commented out due to addedData stating not having the proper props in the data */}
                   {/* <ExpenseForm addedData={data} fetchExpenses={fetchAllExpenses} /> */} 
 
